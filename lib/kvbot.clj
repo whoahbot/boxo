@@ -7,7 +7,8 @@
 (def port 2323)
 
 (defn- kvbot-client [in out]
-  (binding [*in* (reader in) *out* (writer out)]
+  (binding [*in* (reader in) 
+            *out* (writer out)]
     (loop [input (read-line)]
       (println (execute input))
       (recur (read-line)))))

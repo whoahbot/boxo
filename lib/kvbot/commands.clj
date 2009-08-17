@@ -1,10 +1,12 @@
 (ns kvbot.commands
   (:use [clojure.contrib str-utils]))
 
+(def data_store {"1" "ASDF"})
+
 (defn retrieve
   "Retrieve a key-value pair from the datastore"
   [key]
-  (println "Retrieving" key))
+  (get data_store key))
 
 (def commands {"GET" retrieve})
 
