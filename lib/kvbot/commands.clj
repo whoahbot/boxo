@@ -3,14 +3,18 @@
 
 (def data_store {"1" "ASDF"})
 
-(defn retrieve
+(defn retrieve_key
   "Retrieve a key-value pair from the datastore"
   [key]
   (get data_store key))
 
-(def commands {"GET" retrieve})
+(defn set_key
+  [k v]
+  (dosync
+    (alter data_store (assoc data_store k v))))
 
-;; Command handling
+(def commands {"GET" retrieve_key
+               "SET" set_key})
 
 (defn execute
   "Execute a command from the remote client"
