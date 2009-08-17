@@ -11,9 +11,5 @@
   (is (= "key-two" (execute "GET 2"))))
 
 (deftest test-set-existing-key
-  (execute "SET 2 key-two")
-  (is (= 3 (count (keys @*data_store*))) "Setting the same key should not create a new key"))
-
-(deftest test-set-existing-key
   (execute "SET 2 two-key")
   (is (= "two-key" (execute "GET 2")) "Setting the new value should replace the old"))
