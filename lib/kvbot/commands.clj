@@ -1,17 +1,17 @@
 (ns kvbot.commands
   (:use [clojure.contrib str-utils]))
 
-(def data_store {"1" "ASDF"})
+(def *data_store* (ref {}))
 
 (defn retrieve_key
   "Retrieve a key-value pair from the datastore"
   [key]
-  (get data_store key))
+  (get @*data_store* key))
 
 (defn set_key
   [k v]
   (dosync
-    (alter data_store (assoc data_store k v))))
+    (alter *data_store* conj {k v})))
 
 (def commands {"GET" retrieve_key
                "SET" set_key})
