@@ -1,16 +1,19 @@
 #!/usr/bin/env clj
 
-(ns kvbot
+(ns kvbot.server
   (:use [kvbot commands])
   (:use [clojure.contrib server-socket duck-streams]))
 
-(def port 2323)
 
-(defn- kvbot-client [in out]
+(defn- kvbot-handle-client [in out]
   (binding [*in* (reader in) 
             *out* (writer out)]
     (loop [input (read-line)]
       (println (execute input))
       (recur (read-line)))))
-
-(def server (create-server port kvbot-client))
+      
+(defn -main
+  ([port]
+     (defonce server (create-server (Integer. port) kvbot-handle-client))
+     (println "Launching Kvbot server on port" port))
+  ([] (-main 2323)))
