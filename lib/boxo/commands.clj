@@ -1,4 +1,4 @@
-(ns kvbot.commands
+(ns boxo.commands
   (:use [clojure.contrib str-utils]))
 
 (def *data_store* (ref {}))

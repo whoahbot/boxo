@@ -10,6 +10,6 @@ unzip -u ~/src/clojure-contrib/clojure-contrib.jar -d classes
 rm -rf classes/META-INF
 
 java -cp jars/clojure.jar:jars/clojure-contrib.jar:lib/:classes/ \
-     clojure.main -e "(compile 'kvbot.server)"
+     clojure.main -e "(compile 'boxo.server)"
 
 jar cmf Manifest.txt mire.jar -C classes .

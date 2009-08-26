@@ -1,5 +1,5 @@
-(ns kvbot.test.commands
-  (:use [kvbot commands])
+(ns boxo.test.commands
+  (:use [boxo commands])
   (:use [clojure.contrib test-is seq-utils duck-streams]))
   
 (deftest test-command-returns-ok
