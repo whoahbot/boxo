@@ -1,0 +1,66 @@
+h1. boxo
+
+Boxo is a key-value database written in <a href="clojure.org">Clojure</a>.
+
+Clojure is a lisp dialect that runs on the JVM.  It provides a great foundation for concurrency and atomicity which lend themselves to a project like Boxo.  The goals of this project are to provide a simple, fast, filesystem-backed key-value database engine much in the style of <a href="http://code.google.com/p/redis/">Redis</a>.  I would also like to provide adapters for most languages.
+
+This is a _very_ early release of Boxo, it doesn't provide many of the features you'll be looking for in a reliable, scalable k/v store.  I can heartily recommend <a href="http://code.google.com/p/redis/">Redis</a> or some of the other entries in this field for a production environment.  This is my attempt to write a key value store, and should be treated as alpha quality software until otherwise noted.
+
+The base code for this was heavily influenced by the excellent work of Topfunky at <a href="http://peepcode.com/">Peepcode</a> who has a great screencast and introduction to Clojure.
+
+h1. Install
+
+Prerequisites:
+* Clojure:
+** <a href="http://clojure.org/">Clojure</a>
+* Clojure-contrib:
+** <a href="http://code.google.com/p/clojure-contrib/">Clojure-contrib</a>
+
+You'll want to edit the CLASSPATH in boxo.sh to include the path to your clojure.jar and clojure-contrib.jar.
+
+h1. Usage
+
+Start the server:
+
+<pre>
+  <code>
+    > ./boxo.sh &
+    Launching boxo server on port 2323
+    > telnet localhost 2323
+    Connected to localhost.
+    Escape character is '^]'.
+    SET 1 microwizards
+    +OK
+    GET 1 
+    microwizards
+  </code>
+</pre>
+
+h1. Protocol specification
+
+  This is still under development
+
+h1. License
+
+Copyright (c) 2009 Dan Herrera
+ 
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+ 
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
