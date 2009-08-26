@@ -8,9 +8,10 @@
 (defn- kvbot-handle-client [in out]
   (binding [*in* (reader in) 
             *out* (writer out)]
-    (loop [input (read-line)]
-      (println (execute input))
-      (recur (read-line)))))
+    (try (loop [input (read-line)]
+      (when input
+        (println (execute input))
+        (recur (read-line)))))))
       
 (defn -main
   ([port]
