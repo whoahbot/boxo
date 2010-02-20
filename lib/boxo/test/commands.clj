@@ -1,7 +1,10 @@
 (ns boxo.test.commands
   (:use [boxo commands])
   (:use [clojure.contrib test-is seq-utils duck-streams]))
-  
+
+(def cleanup
+     (cleardb))
+
 (deftest test-command-returns-ok
   (is (= "+OK" (execute "SET 1 microbeaver"))))
 
@@ -23,7 +26,7 @@
 
 (deftest test-increment-key-that-doesnt-exist
   (is (= 1 (execute "INCR fishbutter"))))
-  
+
 (deftest test-increment-key-that-does-exist
   (is (= 2 (execute "INCR fishbutter")))
   (is (= 3 (execute "INCR fishbutter"))))
@@ -31,3 +34,11 @@
 (deftest test-string-value-with-spaces)
   (execute "SET 3 thurgood marshall and his amazing armchair")
   (is (= "thurgood marshall and his amazing armchair" (execute "GET 3")))
+
+(deftest test-serialize-data
+  (execute "SET troublebeavers 5")
+  (is (= "{:troublebeavers 5}") (serialize-datastore)))
+
+(deftest test-bgsave-writes-file
+  (is (= true
+       (.exists (java.io.File. "output.txt")))))

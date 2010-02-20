@@ -1,5 +1,4 @@
 #!/bin/sh
-
-CLASSPATH=~/src/clojure/clojure.jar:~/src/clojure/clojure-contrib.jar:lib/
+CLASSPATH=lib/clojure-1.1.0.jar:lib/clojure-contrib-1.1.0.jar
 
 java -cp $CLASSPATH clojure.main lib/boxo/test/all.clj
