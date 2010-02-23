@@ -37,5 +37,5 @@
   (is (= "#=(clojure.lang.PersistentArrayMap/create {\"troublebeavers\" \"5\", \"fishbutter\" 2, \"3\" \"thurgood marshall and his amazing armchair\"})" (serialize-datastore))))
 
 (deftest test-bgsave-writes-file
-  bgsave
+  (is (= "+OK" (execute "BGSAVE")))
   (is (= true (.exists (java.io.File. "output.txt")))))
