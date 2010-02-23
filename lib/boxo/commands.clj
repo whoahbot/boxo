@@ -1,5 +1,6 @@
 (ns boxo.commands
-  (:use [clojure.contrib str-utils duck-streams]))
+  (:use [clojure.contrib str-utils duck-streams])
+  (:use [clojure.contrib.except :only (throw-if)]))
 
 (def *data_store* (ref {}))
 
@@ -12,7 +13,7 @@
   "Set a key-value pair in the datastore"
   [key args]
   (dosync
-    (alter *data_store* conj {key args}))
+   (alter *data_store* conj {key args}))
     "+OK")
 
 (defn increment-key
@@ -35,7 +36,7 @@
   "Empty the datastore"
   []
   (dosync
-   alter *data_store* {}))
+   ref-set *data_store* {}))
 
 (defn bgsave
   "write the serialized datastore out to a file"
@@ -43,19 +44,23 @@
   (clojure.contrib.duck-streams/spit "output.txt" serialize-datastore))
 
 (def commands
-  {"GET"    retrieve-key
-   "SET"    set-key
-   "INCR"   increment-key
-   "BGSAVE" bgsave})
+  {"GET"     retrieve-key
+   "SET"     set-key
+   "INCR"    increment-key
+   "CLEARDB" cleardb
+   "BGSAVE"  bgsave})
 
 (defn execute
   "Execute a command from the remote client"
   [input]
   (try (let [input-words (re-find #"(\w+)\s+(\w+)\s*(.*)$" input)
-             command (get input-words 1)
+             command_str (get input-words 1)
              key (get input-words 2)
-             args (get input-words 3)]
-    ((commands command) key args))
-    (catch Exception e
-      (.printStackTrace e *err*)
-       "-ERR")))
+             args (get input-words 3)
+             command (commands command_str)]
+         (throw-if (nil? command)
+                   IllegalArgumentException (str "No command named " command_str))
+         (command key args))
+       (catch IllegalArgumentException e
+         (.printStackTrace e *err*)
+         "-ERR")))

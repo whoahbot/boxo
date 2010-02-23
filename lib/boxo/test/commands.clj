@@ -2,9 +2,6 @@
   (:use [boxo commands])
   (:use [clojure.contrib test-is seq-utils duck-streams]))
 
-(def cleanup
-     (cleardb))
-
 (deftest test-command-returns-ok
   (is (= "+OK" (execute "SET 1 microbeaver"))))
 
@@ -25,11 +22,11 @@
   (is (= "laser" (execute "GET 2")) "Setting the new value should replace the old"))
 
 (deftest test-increment-key-that-doesnt-exist
-  (is (= 1 (execute "INCR fishbutter"))))
+  (is (= 1 (execute "INCR photobeaver"))))
 
 (deftest test-increment-key-that-does-exist
-  (is (= 2 (execute "INCR fishbutter")))
-  (is (= 3 (execute "INCR fishbutter"))))
+  (is (= 1 (execute "INCR fishbutter")))
+  (is (= 2 (execute "INCR fishbutter"))))
   
 (deftest test-string-value-with-spaces)
   (execute "SET 3 thurgood marshall and his amazing armchair")
@@ -37,8 +34,8 @@
 
 (deftest test-serialize-data
   (execute "SET troublebeavers 5")
-  (is (= "{:troublebeavers 5}") (serialize-datastore)))
+  (is (= "#=(clojure.lang.PersistentArrayMap/create {\"troublebeavers\" \"5\", \"fishbutter\" 2, \"3\" \"thurgood marshall and his amazing armchair\"})" (serialize-datastore))))
 
 (deftest test-bgsave-writes-file
-  (is (= true
-       (.exists (java.io.File. "output.txt")))))
+  bgsave
+  (is (= true (.exists (java.io.File. "output.txt")))))
