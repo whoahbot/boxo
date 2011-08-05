@@ -1,6 +1,5 @@
 (ns boxo.commands
-  (:use [clojure.contrib str-utils duck-streams])
-  (:use [clojure.contrib.except :only (throw-if)]))
+  (:use [clojure.contrib str-utils duck-streams except]))
 
 (def *data_store* (ref {}))
 
