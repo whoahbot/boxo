@@ -1,18 +1,19 @@
 (ns boxo.commands
-  (:use [clojure.contrib str-utils duck-streams except]))
+  (:use [clojure.contrib str-utils except])
+  (:require clojure.contrib.seq-utils))
 
-(def *data_store* (ref {}))
+(def data_store (ref {}))
 
 (defn retrieve-key
   "Retrieve a key-value pair from the datastore"
   [args]
-  (get @*data_store* (first args)))
+  (get @data_store (first args)))
 
 (defn set-key
   "Set a key-value pair in the datastore"
   [args]
   (dosync
-   (alter *data_store* conj {(first args) (rest args)}))
+   (alter data_store conj {(first args) (rest args)}))
     "+OK")
 
 (defn increment-key
@@ -21,27 +22,27 @@
   [args]
   (dosync
    (let [key (first args)]
-     (if (get @*data_store* key)
-       (alter *data_store* conj {key (inc (get @*data_store* key))})
-       (alter *data_store* conj {key 1}))
-     (get @*data_store* key))))
+     (if (get @data_store key)
+       (alter data_store conj {key (inc (get @data_store key))})
+       (alter data_store conj {key 1}))
+     (get @data_store key))))
 
 (defn serialize-datastore
   "Serialize the datastore to a string"
   []
   (binding [*print-dup* true]
-    (pr-str @*data_store*)))
+    (pr-str @data_store)))
 
 (defn cleardb
   "Empty the datastore"
   [_]
   (dosync
-   ref-set *data_store* {}))
+   ref-set data_store {}))
 
 (defn bgsave
   "write the serialized datastore out to a file"
   [_]
-  (clojure.contrib.duck-streams/spit "output.txt" serialize-datastore))
+  (spit "output.txt" serialize-datastore))
 
 (def commands
   {"GET"     retrieve-key

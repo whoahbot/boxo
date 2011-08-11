@@ -1,6 +1,7 @@
 (ns boxo.test.commands
   (:use [boxo commands])
-  (:use [clojure.contrib test-is seq-utils duck-streams]))
+  (:use [clojure.contrib test-is])
+  (:use [clojure.contrib.duck-streams :only (writer)]))
 
 (deftest test-command-returns-ok
   (is (= "+OK" (execute "SET 1 microbeaver"))))
